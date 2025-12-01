@@ -11,7 +11,7 @@ import SwiftUI
 struct AuriApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ListNoteView()
         }
     }
 }

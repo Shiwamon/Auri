@@ -19,7 +19,7 @@ struct ListNoteView: View {
             NavigationView {
                 List {
                     ForEach(viewModel.notes) { note in
-                        NavigationLink(destination: NoteDetailView(note: note)) {
+                        NavigationLink(destination: NoteDetailView(viewModel: viewModel, note: note)) {
                             Text(note.title)
                         }
                     }
@@ -52,29 +52,11 @@ struct ListNoteView: View {
                         }
                     }
                 )
-                .sheet(isPresented: $showNewNote) {   // 👈 sheet цепляется к VStack (View)
-                    VStack(spacing: 16) {
-                        TextField("Title", text: $newNote.title)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding()
-
-                        TextField("Content", text: $newNote.content)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding()
-
-                        Button("Save") {
-                            viewModel.addNote(newNote)
-                            showNewNote = false
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-
-                        Spacer()
-                    }
                     .padding()
+                    .sheet(isPresented: $showNewNote) {
+                        NavigationView {
+                            CreateNoteView(viewModel: viewModel)
+                        }
                 }
             }
         }
